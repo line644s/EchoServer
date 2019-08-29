@@ -22,13 +22,17 @@ namespace EchoServer
             }
         }
 
+        
+
         public void DoClient(TcpClient socket)
         {
             using (StreamReader sr = new StreamReader(socket.GetStream()))
             using (StreamWriter sw = new StreamWriter(socket.GetStream()))
             {
                 string str = sr.ReadLine();
-                sw.WriteLine(str);
+
+                
+                sw.WriteLine($"{str} contains {str.Split(" ").Length} words" );
                 sw.Flush();
             }
 

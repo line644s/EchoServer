@@ -1,6 +1,8 @@
 ﻿using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EchoServer
 {
@@ -18,7 +20,12 @@ namespace EchoServer
             while (true)
             {
                 TcpClient socket = sever.AcceptTcpClient();
-                DoClient(socket);
+                //DoClient(socket);
+                Task.Run(() =>
+                {
+                    TcpClient tempSocket = socket;
+                    DoClient(tempSocket);
+                });
             }
         }
 
@@ -31,7 +38,7 @@ namespace EchoServer
             {
                 string str = sr.ReadLine();
 
-                
+                Thread.Sleep(5000);
                 sw.WriteLine($"{str} contains {str.Split(" ").Length} words" );
                 sw.Flush();
             }

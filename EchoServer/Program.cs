@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace EchoServer
 {
@@ -6,7 +7,11 @@ namespace EchoServer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            Worker worker = new Worker();
+            worker.Start();
+
+            Console.ReadLine();
         }
     }
 }

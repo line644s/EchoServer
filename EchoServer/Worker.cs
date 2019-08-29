@@ -18,15 +18,21 @@ namespace EchoServer
             while (true)
             {
                 TcpClient socket = sever.AcceptTcpClient();
-                using (StreamReader sr = new StreamReader(socket.GetStream()))
-                using (StreamWriter sw = new StreamWriter(socket.GetStream()))
-                {
-                    string str = sr.ReadLine();
-                    sw.WriteLine(str);
-                    sw.Flush();
-                }
-                
+                DoClient(socket);
             }
+        }
+
+        public void DoClient(TcpClient socket)
+        {
+            using (StreamReader sr = new StreamReader(socket.GetStream()))
+            using (StreamWriter sw = new StreamWriter(socket.GetStream()))
+            {
+                string str = sr.ReadLine();
+                sw.WriteLine(str);
+                sw.Flush();
+            }
+
+
         }
     }
 }

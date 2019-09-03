@@ -43,7 +43,7 @@ namespace EchoServer
                 sw.Flush();
             }
 
-
+            socket?.Close();
         }
     }
 }

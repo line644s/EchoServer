@@ -18,11 +18,12 @@ namespace MathServer
             {
                 TcpClient socket = server.AcceptTcpClient();
 
-                Task.Run(() => {
+                Task.Run(() =>
+                {
                     TcpClient tempSocket = socket;
                     DoClient(tempSocket);
-                });
-            }
+            });
+        }
 
         }
 
@@ -31,38 +32,43 @@ namespace MathServer
             using (StreamReader sr = new StreamReader(tempSocket.GetStream()))
             using (StreamWriter sw = new StreamWriter(tempSocket.GetStream()))
             {
-                string str = sr.ReadLine();
+                while (true)
+                {
+                    string str = sr.ReadLine();
 
-                string[] strs = str.Split();
+                    string[] strs = str.Split();
 
-                if (strs[0].ToUpper() == "ADD")
-                {
-                    sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) + double.Parse(strs[2], new CultureInfo("da-DK")));
-                }
-                else if (strs[0].ToUpper() == "SUB")
-                {
-                    sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) -
-                                 double.Parse(strs[2], new CultureInfo("da-DK")));
+                    if (strs[0].ToUpper() == "ADD")
+                    {
+                        sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) + double.Parse(strs[2], new CultureInfo("da-DK")));
+                    }
+                    else if (strs[0].ToUpper() == "SUB")
+                    {
+                        sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) -
+                                     double.Parse(strs[2], new CultureInfo("da-DK")));
 
-                }
-                else if (strs[0].ToUpper() == "MUL")
-                {
-                    sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) *
-                                 double.Parse(strs[2], new CultureInfo("da-DK")));
-                }
-                else if (strs[0].ToUpper() == "DIV")
-                {
-                    sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) /
-                                 double.Parse(strs[2], new CultureInfo("da-DK")));
-                }
-                else
-                {
-                    sw.WriteLine("error, write Add, sub, mul or div first");
-                }
+                    }
+                    else if (strs[0].ToUpper() == "MUL")
+                    {
+                        sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) *
+                                     double.Parse(strs[2], new CultureInfo("da-DK")));
+                    }
+                    else if (strs[0].ToUpper() == "DIV")
+                    {
+                        sw.WriteLine(double.Parse(strs[1], new CultureInfo("da-DK")) /
+                                     double.Parse(strs[2], new CultureInfo("da-DK")));
+                    }
+                    else
+                    {
+                        sw.WriteLine("error, write Add, sub, mul or div first");
+                    }
 
-                sw.Flush();
+                    sw.Flush();
+                }
             }
-            
+
+            tempSocket?.Close();
+
         }
     }
 }
